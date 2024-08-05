@@ -1,40 +1,14 @@
 import '@styles/pages/index.css';
-import {initialCards} from './cards';
+import { initialCards } from './cards';
+import { renderCards } from './renderCards';
+import { openPopup, setClassToPopups } from './popups';
 
-// @todo: Темплейт карточки
-const cardTemplate = document.getElementById('card-template').content;
-
-// @todo: DOM узлы
-const cardsListEl = document.querySelector('.places__list');
-
-// @todo: Функция создания карточки
-function createCard(data, removeCallback) {
-  const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
-  const cardTitleEl = cardElement.querySelector('.card__title');
-  const cardImageEl = cardElement.querySelector('.card__image');
-  const cardButtonEl = cardElement.querySelector('.card__delete-button');
-
-  cardTitleEl.textContent = data.name;
-  cardImageEl.src = data.link;
-  cardImageEl.alt = `${data.name} изображение`;
-
-  cardButtonEl.addEventListener('click', removeCallback);
-
-  return cardElement;
-}
-
-// @todo: Функция удаления карточки
-function removeCard (evt) {
-  const cardButtonEl = evt.target;
-  cardButtonEl.removeEventListener('click', removeCard);
-  cardButtonEl.closest('.card').remove();
-}
-
-// @todo: Вывести карточки на страницу
-function renderCards(cardList) {
-  cardList.forEach(card => {
-    cardsListEl.append(createCard(card, removeCard));
-  });
-}
+const buttonEditProfile = document.querySelector('.profile__edit-button');
+const buttonAddCard = document.querySelector('.profile__add-button');
 
 renderCards(initialCards);
+setClassToPopups();
+
+
+buttonEditProfile.addEventListener('click', () => openPopup('popupProfileEdit'));
+buttonAddCard.addEventListener('click', () => openPopup('popupNewCard'));
